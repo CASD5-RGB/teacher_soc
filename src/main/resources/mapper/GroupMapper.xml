@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lu.assess.mapper.GroupMapper">
+    <resultMap id="GroupMap" type="com.lu.assess.pojo.Group">
+        <id column="gid" property="gid"></id>
+        <result column="group_name" property="groupName"></result>
+        <result column="gro_exce_num" property="groExceNum"></result>
+        <result column="gro_good_num" property="groGoodNum"></result>
+
+    </resultMap>
+
+    <select id="selectQuotaByGid" resultMap="GroupMap">
+        select group_name,gro_exce_num,gro_good_num from group_quota where gid = #{gid}
+    </select>
+
+    <delete id="deleteGroupByCid">
+        delete from group_quota where cid = #{cid}
+    </delete>
+
+    <delete id="deleteAllGroup">
+        delete from group_quota
+    </delete>
+
+    <select id="selectGroupByGid" resultMap="GroupMap">
+        SELECT *
+        FROM group_quota
+        WHERE gid = #{gid}
+    </select>
+
+    <insert id="insertGroup" parameterType="com.lu.assess.pojo.Group">
+        insert into assess_sys.group_quota
+        values(null,#{groupName},null,null,#{cid})
+    </insert>
+
+
+<!--   ===========测试事务是否有效========== -->
+
+    <insert id="testInsert_1" parameterType="int">
+        insert into assess_sys.group_quota (gid,group_name,gro_exce_num,gro_good_num,cid)
+        values(null,null,null,null,#{i})
+    </insert>
+
+
+    <insert id="testInsert_2" parameterType="int">
+        insert into assess_sys.group_quota (gid,group_name,gro_exce_num,gro_good_num,cid)
+        values(null,null,null,null,#{i})
+    </insert>
+<!--    ==================-->
+
+
+
+    <select id="selectAllGroup" resultMap="GroupMap">
+        SELECT *
+        FROM group_quota
+    </select>
+
+    <select id="selectGroupByCid" resultMap="GroupMap">
+        SELECT *
+        FROM group_quota
+        WHERE cid = #{cid}
+    </select>
+
+    <update id="updateQuotaByGid">
+        update assess_sys.group_quota
+        set
+        <if test="groExceNum!=null">gro_exce_num=#{groExceNum},</if>
+        <if test="groGoodNum!=null">gro_good_num=#{groGoodNum}</if>
+        where gid = #{gid}
+    </update>
+
+    <select id="selectGroupExcequotaByCid" resultType="Integer">
+        select sum(gro_exce_num)
+        from group_quota
+        where cid=#{cid}
+    </select>
+
+    <select id="selectGroupGoodquotaByCid" resultType="Integer">
+        select sum(gro_good_num)
+        from group_quota
+        where cid=#{cid}
+    </select>
+
+    <select id="selectGidByCidAndGroupName" resultType="Integer">
+        select ANY_VALUE(gid),sum(gro_good_num)
+        from group_quota
+        where cid = #{cid} and group_name = #{groupName}
+    </select>
+
+    <select id="selectNumByGid" resultType="java.lang.Integer">
+        select count(*) from employee where gid=#{gid}
+    </select>
+
+    <select id="selectNumByCidAndRoles" resultType="java.lang.Integer">
+        select count(*) from employee where cid=#{cid} and roles=#{roles} and participate = 0
+    </select>
+    <select id="selectNumByCid" resultType="java.lang.Integer">
+        select count(*) from employee where cid=#{cid} and participate = 0 and (roles='user' or roles='sub')
+    </select>
+
+</mapper>

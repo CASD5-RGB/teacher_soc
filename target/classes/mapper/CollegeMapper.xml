@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lu.assess.mapper.CollegeMapper">
+    <resultMap id="CollegeMap" type="com.lu.assess.pojo.College">
+        <id column="cid" property="cid"></id>
+        <result column="college_name" property="collegeName"></result>
+    </resultMap>
+
+<!--    <resultMap id="CQMap" type="com.lu.assess.pojo.College">-->
+<!--        <id column="cid" property="cid"></id>-->
+<!--        <result column="college_name" property="collegeName"></result>-->
+<!--        <association property="collegeQuota" javaType="com.lu.assess.pojo.CollegeQuota">-->
+<!--            <id column="qid" property="qid"></id>-->
+<!--            <result column="cid" property="cid"></result>-->
+<!--            <result column="total_annual" property="totalAnnual"></result>-->
+<!--            <result column="col_exce_num" property="colExceNum"></result>-->
+<!--            <result column="col_good_num" property="colGoodNum"></result>-->
+<!--        </association>-->
+<!--    </resultMap>-->
+
+
+    <select id="selectCollege" resultMap="CollegeMap">
+        select * from assess_sys.college order by cid asc
+    </select>
+
+    <select id="findCollegeByCid" resultMap="CollegeMap">
+        select * from college where cid = #{cid}
+    </select>
+
+    <insert id="insertCollege" useGeneratedKeys="true">
+        insert into college (college_name) values (#{collegeName})
+    </insert>
+
+    <delete id="deleteCollegeByCid">
+        delete from assess_sys.college where cid = #{cid}
+    </delete>
+
+    <update id="updateCollegeByCid">
+        update college set college_name = #{collegeName} where cid = #{cid}
+    </update>
+
+
+</mapper>

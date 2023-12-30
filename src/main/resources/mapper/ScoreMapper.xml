@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lu.assess.mapper.ScoreMapper">
+    <resultMap id="ScoreMap" type="com.lu.assess.pojo.Score">
+        <id column="sid" property="sid"></id>
+        <result column="job_num" property="jobNum"></result>
+        <result column="username" property="username"></result>
+        <result column="emp_score" property="empScore"></result>
+        <result column="year_per" property="yearPer"></result>
+        <result column="leader_score" property="leaderScore"></result>
+        <result column="compre_score" property="compreScore"></result>
+        <result column="hier" property="hier"></result>
+<!--        <association property="employee" javaType="com.lu.assess.pojo.Score">-->
+<!--        </association>-->
+    </resultMap>
+
+    <insert id="insertFirst" useGeneratedKeys="true">
+        insert into assess_sys.score (job_num,username,emp_score,leader_score,compre_score)
+        values (#{jobNum},#{username},#{empScore},#{leaderScore},#{compreScore})
+    </insert>
+    
+    <select id="sumComprtScore" resultType="Double">
+        select sum(score.compre_score) FROM employee,score WHERE employee.job_num = score.job_num AND cid = #{cid}
+    </select>
+
+    <select id="selectJobNumAndCompreScore" resultMap="ScoreMap">
+        select score.job_num,score.compre_score from employee,score where employee.`job_num` = score.`job_num` AND cid = #{cid}
+        order by score.compre_score desc
+    </select>
+
+    <update id="updateYearPerByJobNum">
+        update assess_sys.score set year_per = #{yearPer} where job_num = #{jobNum}
+    </update>
+
+    <update id="updateHierByJobNum">
+        update assess_sys.score set hier = #{hier} where job_num = #{jobNum}
+    </update>
+
+    <select id="showAssessResult" resultMap="ScoreMap">
+        SELECT score.job_num,score.username,score.emp_score,score.leader_score,score.compre_score,score.year_per,score.hier
+        FROM score,employee
+        WHERE score.job_num=employee.job_num AND cid=#{cid}
+        ORDER BY score.compre_score DESC;
+    </select>
+
+    <delete id="deleteScore">
+        delete from score
+    </delete>
+</mapper>
