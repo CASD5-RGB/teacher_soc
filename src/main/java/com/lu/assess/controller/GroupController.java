@@ -1,6 +1,9 @@
 package com.lu.assess.controller;
 
+import com.lu.assess.controller.ex.CommitException;
 import com.lu.assess.pojo.Group;
+import com.lu.assess.service.CollegeQuotaService;
+import com.lu.assess.service.CollegeService;
 import com.lu.assess.service.GroupService;
 import com.lu.assess.until.JsonResult;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +27,8 @@ public class GroupController extends BaseController{
 
     @Autowired
     private GroupService groupService;
+    @Autowired
+    private CollegeQuotaService collegeQuotaService;
 
     //通过gid查询组
     @RequestMapping("/selectGroupByGid")
@@ -40,9 +45,9 @@ public class GroupController extends BaseController{
 
     //添加组
     @RequestMapping("/insertGroup")
-    public JsonResult<Integer> insertGroup(@RequestParam("group_name") String group_name,HttpSession session){
+    public JsonResult<Integer> insertGroup(@RequestParam("group_name") String group_name,Integer cid){
 
-        Integer cid = getCidFromSession(session);
+        //Integer cid = getCidFromSession(session);
 //        System.out.println(cid);
         Integer result = groupService.insertGroup(group_name,cid);
         return new JsonResult<Integer>(OK,result);
@@ -66,7 +71,11 @@ public class GroupController extends BaseController{
     @RequestMapping("/updateQuotaByGid")
     public JsonResult<Integer> updateQuotaByGid(Integer gid,
                                                 Integer gro_exce_num,
-                                                Integer gro_good_num){
+                                                Integer gro_good_num,Integer cid){
+        if(groupService.selectGroupExcequotaByCid(cid)+gro_exce_num > collegeQuotaService.selectCollegeExcequotaByCid(cid)||
+        groupService.selectGroupGoodquotaByCid(cid)+gro_good_num > collegeQuotaService.selectCollegeGoodquotaByCid(cid)){
+            throw new CommitException("分配指标数超过学院指标数");
+        }
         Integer result = groupService.updateQuotaByGid(gid,gro_exce_num,gro_good_num);
         return new JsonResult<>(OK,result);
     }

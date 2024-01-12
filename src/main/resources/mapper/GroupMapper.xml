@@ -70,19 +70,19 @@
         where gid = #{gid}
     </update>
 
-    <select id="selectGroupExcequotaByCid" resultType="Integer">
+    <select id="selectGroupExcequotaByCid" resultType="integer">
         select sum(gro_exce_num)
         from group_quota
         where cid=#{cid}
     </select>
 
-    <select id="selectGroupGoodquotaByCid" resultType="Integer">
+    <select id="selectGroupGoodquotaByCid" resultType="integer">
         select sum(gro_good_num)
         from group_quota
         where cid=#{cid}
     </select>
 
-    <select id="selectGidByCidAndGroupName" resultType="Integer">
+    <select id="selectGidByCidAndGroupName" resultType="integer">
         select ANY_VALUE(gid),sum(gro_good_num)
         from group_quota
         where cid = #{cid} and group_name = #{groupName}
@@ -95,8 +95,11 @@
     <select id="selectNumByCidAndRoles" resultType="java.lang.Integer">
         select count(*) from employee where cid=#{cid} and roles=#{roles} and participate = 0
     </select>
+
     <select id="selectNumByCid" resultType="java.lang.Integer">
         select count(*) from employee where cid=#{cid} and participate = 0 and (roles='user' or roles='sub')
     </select>
+
+
 
 </mapper>

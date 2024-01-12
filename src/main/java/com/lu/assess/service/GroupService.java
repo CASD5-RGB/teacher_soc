@@ -50,4 +50,10 @@ public interface GroupService {
 
     //中层 基层 领导班子需评价人数
     Integer CountNumForAll(Integer cid);
+
+    //通过cid查询学院所属所有小组的优秀指标数之和
+    Integer selectGroupExcequotaByCid(Integer cid);
+
+    //通过cid查询学院所属所有小组的良好指标数之和
+    Integer selectGroupGoodquotaByCid(Integer cid);
 }

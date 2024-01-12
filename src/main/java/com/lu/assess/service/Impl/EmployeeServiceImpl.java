@@ -247,10 +247,10 @@ public class EmployeeServiceImpl implements EmployeeService {
     public Integer uploadEidsByGid(Integer gid, Integer[] eids) {
         Integer r = employeeMapper.uploadEidsByGid(gid, eids);
         Integer length20 = Math.toIntExact(Math.round(0.2 * employeeMapper.selectEmpCountByGid(gid)));
-        if (length20 == 0) {
-            groupMapper.updateQuotaByGid(gid, 1, 1);
-        }
-        groupMapper.updateQuotaByGid(gid, length20, length20);
+//        if (length20 == 0) {
+//            groupMapper.updateQuotaByGid(gid, 0, 0);
+//        }
+        groupMapper.updateQuotaByGid(gid, 0, 0);
         if (r != null) {
             return r;
         } else {

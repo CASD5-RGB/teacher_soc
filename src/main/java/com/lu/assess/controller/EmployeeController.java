@@ -6,6 +6,8 @@ import com.lu.assess.pojo.Employee;
 import com.lu.assess.service.*;
 import com.lu.assess.until.EncryptUtil;
 import com.lu.assess.until.JsonResult;
+import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,6 +29,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/employee")
 @CrossOrigin
+@Api(tags = "员工管理")
 public class EmployeeController extends BaseController {
 
     @Autowired
@@ -100,6 +103,7 @@ public class EmployeeController extends BaseController {
     }
 
     @RequestMapping("/show_emp")
+    @Operation(summary = "显示所有员工信息")
     public JsonResult<List<Employee>> showEmployeeInfo() {
         List<Employee> data = employeeService.showEmployeeInfo();
         return new JsonResult<List<Employee>>(OK, data);
@@ -172,15 +176,15 @@ public class EmployeeController extends BaseController {
     }
 
     @RequestMapping("/showComEvaZero")
-    public JsonResult<List<Employee>> showComEvaZero(HttpSession session) {
-        Integer cid = getCidFromSession(session);
+    public JsonResult<List<Employee>> showComEvaZero(Integer cid) {
+        //Integer cid = getCidFromSession(session);
         List<Employee> data = employeeService.showComEvaZero(cid);
         return new JsonResult<>(OK, data);
     }
 
     @RequestMapping("/showComEvaOne")
-    public JsonResult<List<Employee>> showComEvaOne(HttpSession session) {
-        Integer cid = getCidFromSession(session);
+    public JsonResult<List<Employee>> showComEvaOne(Integer cid) {
+        //Integer cid = getCidFromSession(session);
         List<Employee> data = employeeService.showComEvaOne(cid);
         return new JsonResult<>(OK, data);
     }

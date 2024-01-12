@@ -14,6 +14,7 @@ import javax.sql.DataSource;
 import javax.swing.*;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
@@ -52,7 +53,9 @@ class SpringbootSuperadminApplicationTests {
 
     @Test
     void contextLoads() throws SQLException {
-        System.out.println(dataSource.getConnection());
+//        System.out.println(dataSource.getConnection());
+        List<Employee> employees = employeeMapper.showEmployeeInfo();
+        employees.forEach(System.out::println);
     }
 
 
@@ -60,7 +63,7 @@ class SpringbootSuperadminApplicationTests {
     public void getAll(){
        List<Employee> list= employeeMapper.getAll();
         for (int i = 0; i < list.size(); i++) {
-            val employee = list.get(i);
+            Employee employee = list.get(i);
 
             //将取出数据中的password进行加密
             String encrypt = EncryptUtil.encrypt(employee.getPassword());
@@ -429,11 +432,11 @@ class SpringbootSuperadminApplicationTests {
 //        groupService.deleteGroup();
 //    }
 
-    @Test
+    /*@Test
     public void ti() {
         Integer row = groupService.insertGroup("111", 1);
         System.out.println(row);
-    }
+    }*/
 
     @Test
     public void ti1() {
@@ -618,8 +621,9 @@ class SpringbootSuperadminApplicationTests {
 //        List<Employee> employees = employeeMapper.showUsernameAndDepartNameByCid(9);
 //        employees.forEach(System.out::println);
 
-        System.out.println(employeeMapper.countNum(9));
-        System.out.println(gradeMapper.finishAssessNum(9));
+        Calendar cal = Calendar.getInstance();
+        int year = cal.get(Calendar.YEAR);
+        System.out.println(year-1);
     }
 
 

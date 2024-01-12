@@ -79,6 +79,7 @@ public class GroupServiceImpl implements GroupService {
 
     @Override
     public Integer updateQuotaByGid(Integer gid, Integer groExceNum, Integer groGoodNNum) {
+
         return groupMapper.updateQuotaByGid(gid,groExceNum,groGoodNNum);
     }
 
@@ -124,5 +125,15 @@ public class GroupServiceImpl implements GroupService {
     public Integer CountNumForAll(Integer cid) {
 
         return groupMapper.selectNumByCid(cid);
+    }
+
+    @Override
+    public Integer selectGroupExcequotaByCid(Integer cid) {
+        return groupMapper.selectGroupExcequotaByCid(cid);
+    }
+
+    @Override
+    public Integer selectGroupGoodquotaByCid(Integer cid) {
+        return groupMapper.selectGroupGoodquotaByCid(cid);
     }
 }

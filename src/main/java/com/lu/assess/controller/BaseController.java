@@ -99,6 +99,10 @@ public class BaseController {
             result.setStatus(4019);
             result.setMessage("提交失败，请重新提交");
         }
+        else if (e instanceof CommitException){
+            result.setStatus(4020);
+            result.setMessage("分配指标数超过学院指标数");
+        }
         return result;
     }
 

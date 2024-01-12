@@ -90,6 +90,7 @@ public class ScoreController extends BaseController {
         //获取当前年份
         Calendar cal = Calendar.getInstance();
         int year = cal.get(Calendar.YEAR);
+        year = year-1;
         String year1 = Integer.toString(year);
         //导入excel表格
         Workbook workbook = ExcelExportUtil.exportExcel(new ExportParams(year1 + "年" + collegeName + "考核结果及绩效分配汇总", "考核信息"), Score.class, data);

@@ -69,10 +69,22 @@
             from employee,college,depart where employee.cid=college.cid and employee.did = depart.did and eid = #{eid}
     </select>
 
+
+
+
+
     <select id="showEmployeeInfo" resultMap="ec">
-        select employee.eid,employee.job_num,employee.username,employee.sex,college.college_name,college.cid,depart.depart_name,depart.did
-               from employee,college,depart where employee.cid=college.cid and employee.did = depart.did
+        select employee.eid,employee.job_num,employee.username,employee.sex
+             ,college.college_name,college.cid,depart.depart_name,depart.did
+               from employee,college,depart
+        where employee.cid=college.cid
+          and employee.did = depart.did
     </select>
+
+
+
+
+
 
     <update id="updateEmployeeInfo">
         update assess_sys.employee

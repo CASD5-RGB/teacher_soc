@@ -165,6 +165,21 @@ public class GradeController extends BaseController {
     public JsonResult<Void> insertLeaderGradeForEmp(@RequestBody Vo vo) {
 
         List<Centre> lists = vo.getLists();
+
+        Employee employee = vo.getEmployee();
+        Integer eid = employee.getEid();
+
+        Integer comEva = employeeService.findEmployeeByEid(eid).getComEva();
+        //若之前已完成评价
+        if (comEva == 0) {
+            throw new FinishException("请勿重复提交");
+        }
+
+
+        if (lists.isEmpty()) {
+            throw new CommitErrorException("提交失败");
+        }
+
         int size = lists.size();
 
         if(vo.getEmployee().getRoles().equals("user")){
@@ -179,19 +194,7 @@ public class GradeController extends BaseController {
                 throw new GradeExcption("评分人数不符合");
             }
         }
-        Employee employee = vo.getEmployee();
-        Integer eid = employee.getEid();
 
-        Integer comEva = employeeService.findEmployeeByEid(eid).getComEva();
-
-        if (lists.isEmpty()) {
-            throw new CommitErrorException("提交失败");
-        }
-
-        //若之前已完成评价
-        if (comEva == 0) {
-            throw new FinishException("请勿重复提交");
-        }
 
         //检查是否对所在小组所有人员评分
         for (Centre list : lists) {

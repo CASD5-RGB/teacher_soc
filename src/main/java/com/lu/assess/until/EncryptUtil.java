@@ -133,12 +133,12 @@ public final class EncryptUtil {
         return hs.toUpperCase();
     }
     public static void main(String[] args) {
-        String str = "211018";
+        String str = "080057";
         //加密
         String encrypt = EncryptUtil.encrypt(str);
         System.out.println(encrypt);    //输出：14C749ACC3821362
 //        //解密
-//        String decrypt = EncryptUtil.decrypt("7D87B22B15705508");
+//        String decrypt = EncryptUtil.decrypt("BA728281126DF07E");
 //        System.out.println(decrypt);    //输出：1234567
     }
 
